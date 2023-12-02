@@ -44,6 +44,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d6335ca-078f-4d1d-9708-377cf3018205"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -90,6 +99,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e574029d-0eea-4e20-a5d1-f0555c667762"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -117,6 +137,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_PlayerControls = asset.FindActionMap("Player Controls", throwIfNotFound: true);
         m_PlayerControls_Walk = m_PlayerControls.FindAction("Walk", throwIfNotFound: true);
         m_PlayerControls_Jump = m_PlayerControls.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerControls_Dash = m_PlayerControls.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -180,12 +201,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private List<IPlayerControlsActions> m_PlayerControlsActionsCallbackInterfaces = new List<IPlayerControlsActions>();
     private readonly InputAction m_PlayerControls_Walk;
     private readonly InputAction m_PlayerControls_Jump;
+    private readonly InputAction m_PlayerControls_Dash;
     public struct PlayerControlsActions
     {
         private @Controls m_Wrapper;
         public PlayerControlsActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Walk => m_Wrapper.m_PlayerControls_Walk;
         public InputAction @Jump => m_Wrapper.m_PlayerControls_Jump;
+        public InputAction @Dash => m_Wrapper.m_PlayerControls_Dash;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -201,6 +224,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -211,6 +237,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -241,5 +270,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     {
         void OnWalk(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
 }
