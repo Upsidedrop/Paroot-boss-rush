@@ -9,19 +9,11 @@ public class ParootMovement : MonoBehaviour
     private float walk;
     private readonly float jumpStrength = 4.5f;
     public Collider2D Collider2D;
-    private bool walkOverride;
-    private bool dashCooldown;
+    private bool doubleJump;
 
     //gravity, walk, jump, dash
     private int disabledMovement = 0b0000;
     private float facingDir = 1;
-    private IEnumerator OverrideWalking(float overrideTime)
-    {
-        walkOverride = true;
-        yield return new WaitForSeconds(overrideTime);
-        yield return new WaitUntil(() => (walk != 0));
-        walkOverride = false;
-    }
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -38,10 +30,7 @@ public class ParootMovement : MonoBehaviour
     {
         if ((disabledMovement & 0b100) != 0b100)
         {
-            if (!walkOverride)
-            {
                 rb2d.velocity = new(walk, rb2d.velocity.y);
-            }
         }
         GravityManager();
 
@@ -72,6 +61,8 @@ public class ParootMovement : MonoBehaviour
                         Collider2D.bounds.extents.y + 0.05f))
                     {
                         rb2d.velocity = new(rb2d.velocity.x, jumpStrength);
+                        doubleJump = true;
+                        return;
                     }
                     else if (Physics2D.Raycast(
                         Collider2D.bounds.center,
@@ -81,9 +72,10 @@ public class ParootMovement : MonoBehaviour
                         facingDir = -1;
                         float alteredJump;
                         alteredJump = Mathf.Sqrt((jumpStrength * jumpStrength) - (speed * speed));
-                        StartCoroutine(OverrideWalking(0.2f));
+                        StartCoroutine(DisableForTime(0.2f, 100));
                         rb2d.velocity = new(-speed, alteredJump);
-
+                        doubleJump = true;
+                        return;
                     }
                     else if (Physics2D.Raycast(
                         Collider2D.bounds.center,
@@ -93,8 +85,15 @@ public class ParootMovement : MonoBehaviour
                         facingDir = 1;
                         float alteredJump;
                         alteredJump = Mathf.Sqrt((jumpStrength * jumpStrength) - (speed * speed));
-                        StartCoroutine(OverrideWalking(0.2f));
+                        StartCoroutine(DisableForTime(0.2f, 100));
                         rb2d.velocity = new(speed, alteredJump);
+                        doubleJump = true;
+                        return;
+                    }
+                    if (doubleJump)
+                    {
+                        rb2d.velocity = new(rb2d.velocity.x, jumpStrength);
+                        doubleJump = false;
                     }
                 }
             }
@@ -106,7 +105,7 @@ public class ParootMovement : MonoBehaviour
         {
             if (callbackContext.performed)
             {
-                StartCoroutine(DisableForTime(0.15f, 0b1110));
+                StartCoroutine(DisableForTime(0.23f, 0b1110));
                 rb2d.velocity = new(facingDir * speed * 3.3f, 0);
                 StartCoroutine(DisableForTime(2, 0b1));
             }
