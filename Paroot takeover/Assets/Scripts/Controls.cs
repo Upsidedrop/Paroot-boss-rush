@@ -53,6 +53,24 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Directional Modifier"",
+                    ""type"": ""Button"",
+                    ""id"": ""11bc4fb3-206f-4832-a7c0-7c0ccb4263d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""M1"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e6f86bd-369f-439f-8a32-d3052976dd94"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -110,6 +128,50 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""8f1f51d5-c210-4415-a65b-633fc6b14408"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Directional Modifier"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""f1338409-9b4f-46dc-80af-53ad84f473d6"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Directional Modifier"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""cb26bc4d-d1dc-4139-b441-eb4d16c4ff2c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Directional Modifier"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b608cf9-b4f0-4c1f-bac6-444107ec03dc"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""M1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -138,6 +200,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_PlayerControls_Walk = m_PlayerControls.FindAction("Walk", throwIfNotFound: true);
         m_PlayerControls_Jump = m_PlayerControls.FindAction("Jump", throwIfNotFound: true);
         m_PlayerControls_Dash = m_PlayerControls.FindAction("Dash", throwIfNotFound: true);
+        m_PlayerControls_DirectionalModifier = m_PlayerControls.FindAction("Directional Modifier", throwIfNotFound: true);
+        m_PlayerControls_M1 = m_PlayerControls.FindAction("M1", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -202,6 +266,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_Walk;
     private readonly InputAction m_PlayerControls_Jump;
     private readonly InputAction m_PlayerControls_Dash;
+    private readonly InputAction m_PlayerControls_DirectionalModifier;
+    private readonly InputAction m_PlayerControls_M1;
     public struct PlayerControlsActions
     {
         private @Controls m_Wrapper;
@@ -209,6 +275,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Walk => m_Wrapper.m_PlayerControls_Walk;
         public InputAction @Jump => m_Wrapper.m_PlayerControls_Jump;
         public InputAction @Dash => m_Wrapper.m_PlayerControls_Dash;
+        public InputAction @DirectionalModifier => m_Wrapper.m_PlayerControls_DirectionalModifier;
+        public InputAction @M1 => m_Wrapper.m_PlayerControls_M1;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -227,6 +295,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @DirectionalModifier.started += instance.OnDirectionalModifier;
+            @DirectionalModifier.performed += instance.OnDirectionalModifier;
+            @DirectionalModifier.canceled += instance.OnDirectionalModifier;
+            @M1.started += instance.OnM1;
+            @M1.performed += instance.OnM1;
+            @M1.canceled += instance.OnM1;
         }
 
         private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -240,6 +314,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @DirectionalModifier.started -= instance.OnDirectionalModifier;
+            @DirectionalModifier.performed -= instance.OnDirectionalModifier;
+            @DirectionalModifier.canceled -= instance.OnDirectionalModifier;
+            @M1.started -= instance.OnM1;
+            @M1.performed -= instance.OnM1;
+            @M1.canceled -= instance.OnM1;
         }
 
         public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -271,5 +351,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnDirectionalModifier(InputAction.CallbackContext context);
+        void OnM1(InputAction.CallbackContext context);
     }
 }

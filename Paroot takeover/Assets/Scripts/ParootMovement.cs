@@ -10,13 +10,18 @@ public class ParootMovement : MonoBehaviour
     private readonly float jumpStrength = 4.5f;
     public Collider2D Collider2D;
     private bool doubleJump;
+    private float directionMod;
 
     //gravity, walk, jump, dash
     private int disabledMovement = 0b0000;
-    private float facingDir = 1;
+    public static float facingDir = 1;
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+    }
+    public void GetDirectional(CallbackContext callbackContext)
+    {
+        directionMod = callbackContext.ReadValue<float>();
     }
     public void Walk(CallbackContext callbackContext)
     {
@@ -30,12 +35,11 @@ public class ParootMovement : MonoBehaviour
     {
         if ((disabledMovement & 0b100) != 0b100)
         {
-                rb2d.velocity = new(walk, rb2d.velocity.y);
+            rb2d.velocity = new(walk, rb2d.velocity.y);
         }
         GravityManager();
 
     }
-
     private void GravityManager()
     {
         if ((disabledMovement & 1000) == 1000)
@@ -106,12 +110,18 @@ public class ParootMovement : MonoBehaviour
             if (callbackContext.performed)
             {
                 StartCoroutine(DisableForTime(0.23f, 0b1110));
-                rb2d.velocity = new(facingDir * speed * 3.3f, 0);
+                if (directionMod < 0)
+                {
+                    rb2d.velocity = new(0, -speed * 3.3f);
+                }
+                else
+                {
+                    rb2d.velocity = new(facingDir * speed * 3.3f, 0);
+                }
                 StartCoroutine(DisableForTime(2, 0b1));
             }
         }
     }
-
     private IEnumerator DisableForTime(float time, int disabled)
     {
         disabledMovement |= disabled;
