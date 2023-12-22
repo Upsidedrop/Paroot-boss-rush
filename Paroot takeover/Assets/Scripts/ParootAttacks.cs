@@ -5,20 +5,85 @@ using static UnityEngine.InputSystem.InputAction;
 public class ParootAttacks : MonoBehaviour
 {
     public LayerMask enemyMask;
+    public GameObject windBullet;
+    int shotsFired;
+    public bool isLargeBulletReady;
+    IEnumerator LargeBulletCoroutine;
+
+    //Wind bullets, Explosion
+    private int disabledAttacks = 0b00;
     public void ExplosionReceiver(CallbackContext callbackContext)
     {
-        if (callbackContext.performed)
+        if ((disabledAttacks & 0b1) != 0b1)
         {
-            print("M1");
-            StartCoroutine(Explosions());
+            if (callbackContext.performed)
+            {
+                print("M1");
+                StartCoroutine(Explosions());
+                StartCoroutine(DisableForTime(1, 0b1));
+            }
         }
     }
+    IEnumerator LargeBullet()
+    {
+        yield return new WaitForSeconds(1.5f);
+        isLargeBulletReady = true;
+        
+    }
+    public void WindBullets(CallbackContext callbackContext)
+    {
+        if ((disabledAttacks & 0b10) != 0b10)
+        {
+            
+            
+            if (callbackContext.started)
+            {
+                LargeBulletCoroutine = LargeBullet();
+                StartCoroutine(LargeBulletCoroutine);
+            }
+            if (callbackContext.canceled)
+            {
+                if (isLargeBulletReady)
+                {
+                    GameObject currentBullet;
+                    currentBullet = Instantiate(
+                        windBullet,
+                        new Vector2(transform.position.x + 1.2f * ParootMovement.facingDir, transform.position.y),
+                        Quaternion.Euler(0, 0, 0));
+                    currentBullet.transform.localScale = new Vector3(1.42f, 0.75f, 1.3f);
+                    currentBullet.GetComponent<Rigidbody2D>().velocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
+                    StartCoroutine(DisableForTime(3, 0b10));
+                    isLargeBulletReady = false;
+                    return;
+                }
+                else
+                {
+                    StopCoroutine(LargeBulletCoroutine);
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    GameObject currentBullet;
+                    currentBullet = Instantiate(
+                        windBullet,
+                        new Vector2(transform.position.x + 0.3f * ParootMovement.facingDir, transform.position.y),
+                        Quaternion.Euler(0, 0, -30 + i * 20));
+                    currentBullet.GetComponent<Rigidbody2D>().velocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
+                }
+                shotsFired++;
+                if (shotsFired == 3)
+                {
+                    StartCoroutine(DisableForTime(1, 0b10));
+                    shotsFired = 0;
+                }
+            }
 
+        }
+    }
     private IEnumerator Explosions()
     {
         Collider2D[] col = Physics2D.OverlapCircleAll(
             new(transform.position.x + 0.971f * ParootMovement.facingDir, transform.position.y),
-            0.4082f,enemyMask);
+            0.4082f, enemyMask);
         ApplyDamage(col, 4);
         yield return new WaitForSeconds(0.2f);
         col = Physics2D.OverlapCircleAll(
@@ -62,6 +127,16 @@ public class ParootAttacks : MonoBehaviour
             0.1268081f);
         Gizmos.DrawWireSphere(new(transform.position.x + 1.1911f * ParootMovement.facingDir, transform.position.y - 3.3375001f + 3.68f),
             0.1268081f);
-        */
+      */
+    }
+    private void Start()
+    {
+        LargeBulletCoroutine = LargeBullet();
+    }
+    private IEnumerator DisableForTime(float time, int disabled)
+    {
+        disabledAttacks |= disabled;
+        yield return new WaitForSeconds(time);
+        disabledAttacks &= ~disabled;
     }
 }

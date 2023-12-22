@@ -71,6 +71,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""M2"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a2860b5-7c65-4f35-abb0-a3f41a1c1ce6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""M1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5f8123b-9c7d-4408-ba8c-f3c6e735647e"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""M2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -202,6 +222,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_PlayerControls_Dash = m_PlayerControls.FindAction("Dash", throwIfNotFound: true);
         m_PlayerControls_DirectionalModifier = m_PlayerControls.FindAction("Directional Modifier", throwIfNotFound: true);
         m_PlayerControls_M1 = m_PlayerControls.FindAction("M1", throwIfNotFound: true);
+        m_PlayerControls_M2 = m_PlayerControls.FindAction("M2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -268,6 +289,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_Dash;
     private readonly InputAction m_PlayerControls_DirectionalModifier;
     private readonly InputAction m_PlayerControls_M1;
+    private readonly InputAction m_PlayerControls_M2;
     public struct PlayerControlsActions
     {
         private @Controls m_Wrapper;
@@ -277,6 +299,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_PlayerControls_Dash;
         public InputAction @DirectionalModifier => m_Wrapper.m_PlayerControls_DirectionalModifier;
         public InputAction @M1 => m_Wrapper.m_PlayerControls_M1;
+        public InputAction @M2 => m_Wrapper.m_PlayerControls_M2;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +324,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @M1.started += instance.OnM1;
             @M1.performed += instance.OnM1;
             @M1.canceled += instance.OnM1;
+            @M2.started += instance.OnM2;
+            @M2.performed += instance.OnM2;
+            @M2.canceled += instance.OnM2;
         }
 
         private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -320,6 +346,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @M1.started -= instance.OnM1;
             @M1.performed -= instance.OnM1;
             @M1.canceled -= instance.OnM1;
+            @M2.started -= instance.OnM2;
+            @M2.performed -= instance.OnM2;
+            @M2.canceled -= instance.OnM2;
         }
 
         public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -353,5 +382,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnDirectionalModifier(InputAction.CallbackContext context);
         void OnM1(InputAction.CallbackContext context);
+        void OnM2(InputAction.CallbackContext context);
     }
 }

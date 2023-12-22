@@ -4,6 +4,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class ParootMovement : MonoBehaviour
 {
+    public LayerMask jumpableLayers;
     private Rigidbody2D rb2d;
     readonly private float speed = 3;
     private float walk;
@@ -62,7 +63,7 @@ public class ParootMovement : MonoBehaviour
                     if (Physics2D.Raycast(
                         Collider2D.bounds.center,
                         Vector2.down,
-                        Collider2D.bounds.extents.y + 0.05f))
+                        Collider2D.bounds.extents.y + 0.05f,jumpableLayers))
                     {
                         rb2d.velocity = new(rb2d.velocity.x, jumpStrength);
                         doubleJump = true;
@@ -71,7 +72,7 @@ public class ParootMovement : MonoBehaviour
                     else if (Physics2D.Raycast(
                         Collider2D.bounds.center,
                         Vector2.right,
-                        Collider2D.bounds.extents.x + 0.05f))
+                        Collider2D.bounds.extents.x + 0.05f, jumpableLayers))
                     {
                         facingDir = -1;
                         float alteredJump;
@@ -84,7 +85,7 @@ public class ParootMovement : MonoBehaviour
                     else if (Physics2D.Raycast(
                         Collider2D.bounds.center,
                         Vector2.left,
-                        Collider2D.bounds.extents.x + 0.05f))
+                        Collider2D.bounds.extents.x + 0.05f, jumpableLayers))
                     {
                         facingDir = 1;
                         float alteredJump;

@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 46147673}
   - component: {fileID: 46147674}
   - component: {fileID: 46147675}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 117852313}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 330515403}
   - component: {fileID: 330515404}
   - component: {fileID: 330515405}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -587,7 +587,7 @@ GameObject:
   - component: {fileID: 926413329}
   - component: {fileID: 926413330}
   - component: {fileID: 926413331}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,7 +717,7 @@ GameObject:
   - component: {fileID: 1184715914}
   - component: {fileID: 1184715915}
   - component: {fileID: 1184715916}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -851,7 +851,7 @@ GameObject:
   - component: {fileID: 1585050483}
   - component: {fileID: 1585050485}
   - component: {fileID: 1585050486}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Paroot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1057,6 +1057,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9e6f86bd-369f-439f-8a32-d3052976dd94
     m_ActionName: Player Controls/M1[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1585050486}
+        m_TargetAssemblyTypeName: ParootAttacks, Assembly-CSharp
+        m_MethodName: WindBullets
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7a2860b5-7c65-4f35-abb0-a3f41a1c1ce6
+    m_ActionName: Player Controls/M2[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
@@ -1074,6 +1090,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a40c6c28b474ac745bc0e130a9d4a96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpableLayers:
+    serializedVersion: 2
+    m_Bits: 64
   Collider2D: {fileID: 1585050485}
 --- !u!61 &1585050485
 BoxCollider2D:
@@ -1135,6 +1154,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 8
+  windBullet: {fileID: 5723986855691013137, guid: 1951dae00bae7c545a5efe942658d741, type: 3}
 --- !u!1 &2116737270
 GameObject:
   m_ObjectHideFlags: 0
