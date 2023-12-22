@@ -1,1 +1,2 @@
 # Paroot-boss-rush
+This is a game about parrots fighting jungle creatures, and honestly, that's it. Where all the ideas for the game are is a Milanote document that I will share here: https://app.milanote.com/1R7j1C1rXtV6an?p=R8wUHPozDEX. The document is read-only so you won't be able to make any edits to it. However, if you would like to contribute to this side project for some reason then the info is there.
