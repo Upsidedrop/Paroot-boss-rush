@@ -11,7 +11,7 @@ public class ParootMovement : MonoBehaviour
     private readonly float jumpStrength = 4.5f;
     public Collider2D Collider2D;
     private bool doubleJump;
-    private float directionMod;
+    public static float directionMod;
 
     //gravity, walk, jump, dash
     private int disabledMovement = 0b0000;

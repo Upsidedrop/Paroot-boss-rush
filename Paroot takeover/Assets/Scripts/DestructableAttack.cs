@@ -11,7 +11,7 @@ public class DestructableAttack : MonoBehaviour
     {
         if (collision.gameObject.layer == enemyLayer)
         {
-            print($"Dealt {damage} damage to {collision.gameObject.name}.");
+            collision.GetComponent<Health>().health-=damage;
         }
         if (collision.gameObject.layer == enemyLayer || collision.gameObject.layer == 6)
         {

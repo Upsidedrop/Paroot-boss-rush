@@ -6,12 +6,14 @@ public class ParootAttacks : MonoBehaviour
 {
     public LayerMask enemyMask;
     public GameObject windBullet;
-    int shotsFired;
+    public GameObject windTornado;
+    private int shotsFired;
     public bool isLargeBulletReady;
-    IEnumerator LargeBulletCoroutine;
+    private IEnumerator LargeBulletCoroutine;
+    private bool useBullets;
 
-    //Wind bullets, Explosion
-    private int disabledAttacks = 0b00;
+    //Wind Tornado, Wind bullets, Explosion
+    private int disabledAttacks = 0b000;
     public void ExplosionReceiver(CallbackContext callbackContext)
     {
         if ((disabledAttacks & 0b1) != 0b1)
@@ -24,59 +26,87 @@ public class ParootAttacks : MonoBehaviour
             }
         }
     }
-    IEnumerator LargeBullet()
+    public void TornadoReceiver(CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            if ((disabledAttacks & 0b100) != 0b100)
+            {
+                if (ParootMovement.directionMod > 0)
+                {
+                    Instantiate(windTornado, transform.position
+                        + 1.18f
+                        * ParootMovement.facingDir
+                        * Vector3.right
+                        + Vector3.up * 0.898748f, windTornado.transform.rotation);
+                    StartCoroutine(DisableForTime(7, 0b100));
+
+                    return;
+                }
+            }
+        }
+    }
+
+    private IEnumerator LargeBullet()
     {
         yield return new WaitForSeconds(1.5f);
         isLargeBulletReady = true;
-        
+
     }
     public void WindBullets(CallbackContext callbackContext)
     {
-        if ((disabledAttacks & 0b10) != 0b10)
+        if (callbackContext.started)
         {
-            
-            
-            if (callbackContext.started)
-            {
-                LargeBulletCoroutine = LargeBullet();
-                StartCoroutine(LargeBulletCoroutine);
-            }
-            if (callbackContext.canceled)
-            {
-                if (isLargeBulletReady)
-                {
-                    GameObject currentBullet;
-                    currentBullet = Instantiate(
-                        windBullet,
-                        new Vector2(transform.position.x + 1.2f * ParootMovement.facingDir, transform.position.y),
-                        Quaternion.Euler(0, 0, 0));
-                    currentBullet.transform.localScale = new Vector3(1.42f, 0.75f, 1.3f);
-                    currentBullet.GetComponent<Rigidbody2D>().velocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
-                    StartCoroutine(DisableForTime(3, 0b10));
-                    isLargeBulletReady = false;
-                    return;
-                }
-                else
-                {
-                    StopCoroutine(LargeBulletCoroutine);
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    GameObject currentBullet;
-                    currentBullet = Instantiate(
-                        windBullet,
-                        new Vector2(transform.position.x + 0.3f * ParootMovement.facingDir, transform.position.y),
-                        Quaternion.Euler(0, 0, -30 + i * 20));
-                    currentBullet.GetComponent<Rigidbody2D>().velocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
-                }
-                shotsFired++;
-                if (shotsFired == 3)
-                {
-                    StartCoroutine(DisableForTime(1, 0b10));
-                    shotsFired = 0;
-                }
-            }
+            useBullets = ParootMovement.directionMod == 0;
+        }
+        if (useBullets)
+        {
 
+            if ((disabledAttacks & 0b10) != 0b10)
+            {
+                if (callbackContext.started)
+                {
+
+                    LargeBulletCoroutine = LargeBullet();
+                    StartCoroutine(LargeBulletCoroutine);
+                }
+                if (callbackContext.canceled)
+                {
+                    if (isLargeBulletReady)
+                    {
+                        GameObject currentBullet;
+                        currentBullet = Instantiate(
+                            windBullet,
+                            new Vector2(transform.position.x + 1.2f * ParootMovement.facingDir, transform.position.y),
+                            Quaternion.Euler(0, 0, 0));
+                        currentBullet.transform.localScale = new Vector3(1.42f, 0.75f, 1.3f);
+                        currentBullet.GetComponent<Rigidbody2D>().velocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
+                        StartCoroutine(DisableForTime(3, 0b10));
+                        isLargeBulletReady = false;
+                        currentBullet.GetComponent<DestructableAttack>().damage = 10;
+                        return;
+                    }
+                    else
+                    {
+                        StopCoroutine(LargeBulletCoroutine);
+                    }
+                    for (int i = 0; i < 4; i++)
+                    {
+                        GameObject currentBullet;
+                        currentBullet = Instantiate(
+                            windBullet,
+                            new Vector2(transform.position.x + 0.3f * ParootMovement.facingDir, transform.position.y),
+                            Quaternion.Euler(0, 0, -30 + i * 20));
+                        currentBullet.GetComponent<Rigidbody2D>().velocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
+                    }
+                    shotsFired++;
+                    if (shotsFired == 3)
+                    {
+                        StartCoroutine(DisableForTime(1, 0b10));
+                        shotsFired = 0;
+                    }
+                }
+            }
         }
     }
     private IEnumerator Explosions()
@@ -112,7 +142,7 @@ public class ParootAttacks : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
-            print($"Dealt {damage} damage to {hit.transform.name}");
+            hit.GetComponent<Health>().health-=damage;
         }
     }
     private void OnDrawGizmos()
