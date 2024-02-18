@@ -14,6 +14,7 @@ public class ParootMovement : MonoBehaviour
     public static float directionMod;
 
     //gravity, walk, jump, dash
+    [SerializeField]
     private int disabledMovement = 0b0000;
     public static float facingDir = 1;
     private void Awake()
@@ -77,7 +78,7 @@ public class ParootMovement : MonoBehaviour
                         facingDir = -1;
                         float alteredJump;
                         alteredJump = Mathf.Sqrt((jumpStrength * jumpStrength) - (speed * speed));
-                        StartCoroutine(DisableForTime(0.2f, 100));
+                        StartCoroutine(DisableForTime(0.2f, 0b100));
                         rb2d.velocity = new(-speed, alteredJump);
                         doubleJump = true;
                         return;
@@ -90,7 +91,7 @@ public class ParootMovement : MonoBehaviour
                         facingDir = 1;
                         float alteredJump;
                         alteredJump = Mathf.Sqrt((jumpStrength * jumpStrength) - (speed * speed));
-                        StartCoroutine(DisableForTime(0.2f, 100));
+                        StartCoroutine(DisableForTime(0.2f, 0b100));
                         rb2d.velocity = new(speed, alteredJump);
                         doubleJump = true;
                         return;
@@ -119,11 +120,11 @@ public class ParootMovement : MonoBehaviour
                 {
                     rb2d.velocity = new(facingDir * speed * 3.3f, 0);
                 }
-                StartCoroutine(DisableForTime(2, 0b1));
+                StartCoroutine(DisableForTime(1, 0b1));
             }
         }
     }
-    private IEnumerator DisableForTime(float time, int disabled)
+    public IEnumerator DisableForTime(float time, int disabled)
     {
         disabledMovement |= disabled;
         yield return new WaitForSeconds(time);

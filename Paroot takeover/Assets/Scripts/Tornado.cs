@@ -21,7 +21,7 @@ public class Tornado : MonoBehaviour
         w += 0.1f;
         rb.velocity = new Vector2(Mathf.PerlinNoise1D(w) * speed - speed / 2, rb.velocity.y);
         yield return new WaitForSeconds(0.1f);
-        if (w > 6)
+        if (w > 3)
         {
             Destroy(gameObject);
         }
@@ -33,9 +33,9 @@ public class Tornado : MonoBehaviour
         if (collisionInfo.gameObject.layer == 3/*Enemy*/)
         {
             timer += Time.deltaTime;
-            if (timer >= 0.1f)
+            if (timer >= 0.5f)
             {
-                collisionInfo.gameObject.GetComponent<Health>().health-=1;
+                collisionInfo.gameObject.GetComponent<Health>().health-=2;
                 timer = 0f;
             }
         }

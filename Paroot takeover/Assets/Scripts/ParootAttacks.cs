@@ -81,9 +81,9 @@ public class ParootAttacks : MonoBehaviour
                             Quaternion.Euler(0, 0, 0));
                         currentBullet.transform.localScale = new Vector3(1.42f, 0.75f, 1.3f);
                         currentBullet.GetComponent<Rigidbody2D>().velocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
-                        StartCoroutine(DisableForTime(3, 0b10));
+                        StartCoroutine(DisableForTime(5, 0b10));
                         isLargeBulletReady = false;
-                        currentBullet.GetComponent<DestructableAttack>().damage = 10;
+                        currentBullet.GetComponent<DestructableAttack>().damage = 15;
                         return;
                     }
                     else
@@ -102,7 +102,7 @@ public class ParootAttacks : MonoBehaviour
                     shotsFired++;
                     if (shotsFired == 3)
                     {
-                        StartCoroutine(DisableForTime(1, 0b10));
+                        StartCoroutine(DisableForTime(3, 0b10));
                         shotsFired = 0;
                     }
                 }
@@ -114,27 +114,27 @@ public class ParootAttacks : MonoBehaviour
         Collider2D[] col = Physics2D.OverlapCircleAll(
             new(transform.position.x + 0.971f * ParootMovement.facingDir, transform.position.y),
             0.4082f, enemyMask);
-        ApplyDamage(col, 4);
+        ApplyDamage(col, 3);
         yield return new WaitForSeconds(0.2f);
         col = Physics2D.OverlapCircleAll(
             new(transform.position.x + 1.1836f * ParootMovement.facingDir, transform.position.y - 0.1074f),
             0.1268081f, enemyMask);
-        ApplyDamage(col, 1);
+        ApplyDamage(col, 0.5f);
         yield return new WaitForSeconds(0.05f);
         col = Physics2D.OverlapCircleAll(
             new(transform.position.x + 0.835000038f * ParootMovement.facingDir, transform.position.y - 3.52609992f + 3.68f),
             0.1268081f, enemyMask);
-        ApplyDamage(col, 1);
+        ApplyDamage(col, 0.5f);
         yield return new WaitForSeconds(0.05f);
         col = Physics2D.OverlapCircleAll(
             new(transform.position.x + 0.815000057f * ParootMovement.facingDir, transform.position.y - 4.02759981f + 3.68f),
             0.1268081f, enemyMask);
-        ApplyDamage(col, 1);
+        ApplyDamage(col, 0.5f);
         yield return new WaitForSeconds(0.05f);
         col = Physics2D.OverlapCircleAll(
             new(transform.position.x + 1.1911f * ParootMovement.facingDir, transform.position.y - 3.3375001f + 3.68f),
             0.1268081f, enemyMask);
-        ApplyDamage(col, 1);
+        ApplyDamage(col, 0.5f);
     }
 
     private void ApplyDamage(Collider2D[] hits, float damage)
@@ -147,7 +147,7 @@ public class ParootAttacks : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        /* Explosion Attack
+        ///* Explosion Attack
         Gizmos.DrawWireSphere(new(transform.position.x + 0.971f * ParootMovement.facingDir, transform.position.y), 0.4082f);
         Gizmos.DrawWireSphere(new(transform.position.x + 1.1836f * ParootMovement.facingDir, transform.position.y - 0.1074f),
             0.1268081f);
@@ -157,13 +157,13 @@ public class ParootAttacks : MonoBehaviour
             0.1268081f);
         Gizmos.DrawWireSphere(new(transform.position.x + 1.1911f * ParootMovement.facingDir, transform.position.y - 3.3375001f + 3.68f),
             0.1268081f);
-      */
+      //*/
     }
     private void Start()
     {
         LargeBulletCoroutine = LargeBullet();
     }
-    private IEnumerator DisableForTime(float time, int disabled)
+    public IEnumerator DisableForTime(float time, int disabled)
     {
         disabledAttacks |= disabled;
         yield return new WaitForSeconds(time);
