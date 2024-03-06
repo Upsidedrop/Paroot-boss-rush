@@ -10,7 +10,7 @@ public class Shockwave_Behavior : MonoBehaviour
     readonly float peakHeight =2;
     [SerializeField]
     GameObject ShockwaveBaby;
-    private void Awake()
+    private void Start()
     {
         StartCoroutine(SpawnDelay());
     }

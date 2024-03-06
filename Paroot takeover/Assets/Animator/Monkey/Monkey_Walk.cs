@@ -8,9 +8,16 @@ public class Monkey_Walk : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (!animator.GetBool("Enraged"))
+        {
+            if (animator.GetComponent<Health>().health < 125)
+            {
+                animator.SetBool("Enraged", true);
+            }
+        }
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         rb = animator.GetComponent<Rigidbody2D>();
-        animator.SetInteger("Random Attack", Random.Range(0, 3));
+        animator.SetInteger("Random Attack", Random.Range(0, 12));
     }
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
