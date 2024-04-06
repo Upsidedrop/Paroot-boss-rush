@@ -12,6 +12,8 @@ public class BananaBehavior : MonoBehaviour
             StartCoroutine(collision.gameObject.GetComponent<ParootAttacks>().DisableForTime(2.5f, 0b111));
             GetComponent<Collider2D>().enabled = false;
             GetComponent<SpriteRenderer>().enabled = false;
+            collision.gameObject.GetComponent<Health>().health -= 10;
+            collision.gameObject.GetComponent<ParootMovement>().CallCoroutine("IFrames",1.5f);
             startTimer = true;
         }
         if (collision.gameObject.CompareTag("Enemy"))

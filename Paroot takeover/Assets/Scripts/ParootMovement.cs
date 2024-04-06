@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
@@ -5,6 +6,7 @@ using static UnityEngine.InputSystem.InputAction;
 public class ParootMovement : MonoBehaviour
 {
     public LayerMask jumpableLayers;
+    public LayerMask hazardsAndEnemies;
     private Rigidbody2D rb2d;
     readonly private float speed = 3;
     private float walk;
@@ -17,6 +19,7 @@ public class ParootMovement : MonoBehaviour
     [SerializeField]
     private int disabledMovement = 0b0000;
     public static float facingDir = 1;
+    private bool iFramesActive = false;
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -44,7 +47,7 @@ public class ParootMovement : MonoBehaviour
     }
     private void GravityManager()
     {
-        if ((disabledMovement & 1000) == 1000)
+        if ((disabledMovement & 0b1000) == 0b1000)
         {
             rb2d.gravityScale = 0;
         }
@@ -64,7 +67,7 @@ public class ParootMovement : MonoBehaviour
                     if (Physics2D.Raycast(
                         Collider2D.bounds.center,
                         Vector2.down,
-                        Collider2D.bounds.extents.y + 0.05f,jumpableLayers))
+                        Collider2D.bounds.extents.y + 0.05f, jumpableLayers))
                     {
                         rb2d.velocity = new(rb2d.velocity.x, jumpStrength);
                         doubleJump = true;
@@ -112,6 +115,11 @@ public class ParootMovement : MonoBehaviour
             if (callbackContext.performed)
             {
                 StartCoroutine(DisableForTime(0.23f, 0b1110));
+
+
+                StartCoroutine(IFrames(0.23f));
+
+
                 if (directionMod < 0)
                 {
                     rb2d.velocity = new(0, -speed * 3.3f);
@@ -130,4 +138,25 @@ public class ParootMovement : MonoBehaviour
         yield return new WaitForSeconds(time);
         disabledMovement &= ~disabled;
     }
+    public void CallCoroutine(string name, float param)
+    {
+        StartCoroutine(name, param);
+    }
+    public IEnumerator IFrames(float time)
+    {
+  
+        if (iFramesActive)
+        {
+            yield break;
+        }
+        iFramesActive = true;
+        Debug.Log("Setting collision mask for layer 7 to ignore hazards and enemies");
+        Physics2D.SetLayerCollisionMask(7, ~hazardsAndEnemies);
+        yield return new WaitForSeconds(time);
+        print("Resetting collision mask for layer 7");
+        Physics2D.SetLayerCollisionMask(7, 0b111111111);
+
+        iFramesActive = false;
+        
+    } 
 }

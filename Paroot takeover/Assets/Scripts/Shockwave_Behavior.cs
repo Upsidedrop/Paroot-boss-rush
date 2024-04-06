@@ -56,4 +56,13 @@ public class Shockwave_Behavior : MonoBehaviour
         }
 
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<Health>().health -= 10;
+            collision.gameObject.GetComponent<ParootMovement>().CallCoroutine("IFrames",1.5f);
+
+        }
+    }
 }
