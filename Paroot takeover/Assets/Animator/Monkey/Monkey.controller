@@ -157,7 +157,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: Random Attack
-    m_EventTreshold: 8
+    m_EventTreshold: 7
   - m_ConditionMode: 4
     m_ConditionEvent: Random Attack
     m_EventTreshold: 11
@@ -493,7 +493,7 @@ AnimatorStateMachine:
     m_Position: {x: 1430, y: -40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2286247953310027084}
-    m_Position: {x: 1680, y: 20, z: 0}
+    m_Position: {x: 1690, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4819290462006426423}
     m_Position: {x: 1680, y: 210, z: 0}
@@ -800,31 +800,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: -1
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Death
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Stun
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Enraged
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Hit Paroot
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -967,7 +967,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: Random Attack
-    m_EventTreshold: 9
+    m_EventTreshold: 8
   - m_ConditionMode: 3
     m_ConditionEvent: Random Attack
     m_EventTreshold: 4
@@ -1147,7 +1147,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: 5cfa817176858f14ea465d35375e33f6, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
