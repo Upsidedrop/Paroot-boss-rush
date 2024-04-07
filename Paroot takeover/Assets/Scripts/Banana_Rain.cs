@@ -16,7 +16,7 @@ public class Banana_Rain : MonoBehaviour
         {
             yield return null;
         }
-        if (Random.Range(0,3) == 1)
+        if (Random.Range(0,5) == 0)
         {
             yield break;
         }
