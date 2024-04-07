@@ -7,7 +7,7 @@ public class Monkey_Dash_Attack : StateMachineBehaviour
     Transform playerTransform;
     Transform monkeyTransform;
     Rigidbody2D rb;
-    readonly float dashForce = 15;
+    readonly float dashForce = 10;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

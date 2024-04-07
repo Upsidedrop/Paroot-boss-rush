@@ -49,7 +49,7 @@ public class ParootAttacks : MonoBehaviour
 
     private IEnumerator LargeBullet()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1);
         isLargeBulletReady = true;
 
     }
@@ -102,7 +102,7 @@ public class ParootAttacks : MonoBehaviour
                     shotsFired++;
                     if (shotsFired == 3)
                     {
-                        StartCoroutine(DisableForTime(3, 0b10));
+                        StartCoroutine(DisableForTime(2, 0b10));
                         shotsFired = 0;
                     }
                 }

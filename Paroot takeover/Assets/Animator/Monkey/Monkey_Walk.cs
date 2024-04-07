@@ -34,7 +34,7 @@ public class Monkey_Walk : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        rb.velocity = Vector2.zero;
+        rb.velocity = Vector2.zero; 
         animator.SetInteger("Random Attack", -1);
     }
 }
