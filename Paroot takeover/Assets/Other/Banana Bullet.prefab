@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4905689141594251581}
   - component: {fileID: 485517698498143084}
   - component: {fileID: 8016624354525018860}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Banana Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
