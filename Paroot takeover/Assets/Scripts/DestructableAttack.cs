@@ -12,6 +12,10 @@ public class DestructableAttack : MonoBehaviour
         if (collision.gameObject.layer == enemyLayer)
         {
             collision.GetComponent<Health>().health-=damage;
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                collision.gameObject.GetComponent<ParootMovement>().CallCoroutine("IFrames", 1.5f);
+            }
         }
         if (collision.gameObject.layer == enemyLayer || collision.gameObject.layer == 6)
         {
