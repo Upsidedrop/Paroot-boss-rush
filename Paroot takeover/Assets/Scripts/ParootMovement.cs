@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
@@ -32,9 +31,27 @@ public class ParootMovement : MonoBehaviour
     {
         if (callbackContext.performed)
         {
-            facingDir = callbackContext.ReadValue<float>();
+            if (callbackContext.ReadValue<float>() > 0)
+            {
+                facingDir = 1;
+            }
+            else
+            {
+                facingDir = -1;
+            }
         }
-        walk = callbackContext.ReadValue<float>() * speed;
+        switch (callbackContext.ReadValue<float>())
+        {
+            case > 0:
+                walk = speed;
+                break;
+            case < 0:
+                walk = -speed;
+                break;
+            default:
+                walk = 0;
+                break;
+        }
     }
     private void Update()
     {
@@ -144,7 +161,7 @@ public class ParootMovement : MonoBehaviour
     }
     public IEnumerator IFrames(float time)
     {
-  
+
         if (iFramesActive)
         {
             yield break;
@@ -157,6 +174,6 @@ public class ParootMovement : MonoBehaviour
         Physics2D.SetLayerCollisionMask(7, 0b111111111);
 
         iFramesActive = false;
-        
-    } 
+
+    }
 }
