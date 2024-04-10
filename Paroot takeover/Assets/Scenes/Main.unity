@@ -1661,6 +1661,7 @@ MonoBehaviour:
   windBullet: {fileID: 5723986855691013137, guid: 1951dae00bae7c545a5efe942658d741, type: 3}
   windTornado: {fileID: 5966036389756605298, guid: 466a7f38b69436f4992255b521280920, type: 3}
   isLargeBulletReady: 0
+  m1Hitbox: {fileID: 3957721038855724594, guid: 43c9f9830285af645bb85b7b2dc73224, type: 3}
 --- !u!114 &1585050487
 MonoBehaviour:
   m_ObjectHideFlags: 0

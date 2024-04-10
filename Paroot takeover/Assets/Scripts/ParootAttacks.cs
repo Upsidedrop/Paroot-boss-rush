@@ -11,6 +11,7 @@ public class ParootAttacks : MonoBehaviour
     public bool isLargeBulletReady;
     private IEnumerator LargeBulletCoroutine;
     private bool useBullets;
+    public GameObject m1Hitbox;
 
     //Wind Tornado, Wind bullets, Explosion
     private int disabledAttacks = 0b000;
@@ -22,7 +23,7 @@ public class ParootAttacks : MonoBehaviour
             {
                 print("M1");
                 StartCoroutine(Explosions());
-                StartCoroutine(DisableForTime(1, 0b1));
+                StartCoroutine(DisableForTime(3, 0b1));
             }
         }
     }
@@ -111,39 +112,30 @@ public class ParootAttacks : MonoBehaviour
     }
     private IEnumerator Explosions()
     {
-        Collider2D[] col = Physics2D.OverlapCircleAll(
-            new(transform.position.x + 0.971f * ParootMovement.facingDir, transform.position.y),
-            0.4082f, enemyMask);
-        ApplyDamage(col, 3);
-        yield return new WaitForSeconds(0.2f);
-        col = Physics2D.OverlapCircleAll(
-            new(transform.position.x + 1.1836f * ParootMovement.facingDir, transform.position.y - 0.1074f),
-            0.1268081f, enemyMask);
-        ApplyDamage(col, 0.5f);
-        yield return new WaitForSeconds(0.05f);
-        col = Physics2D.OverlapCircleAll(
-            new(transform.position.x + 0.835000038f * ParootMovement.facingDir, transform.position.y - 3.52609992f + 3.68f),
-            0.1268081f, enemyMask);
-        ApplyDamage(col, 0.5f);
-        yield return new WaitForSeconds(0.05f);
-        col = Physics2D.OverlapCircleAll(
-            new(transform.position.x + 0.815000057f * ParootMovement.facingDir, transform.position.y - 4.02759981f + 3.68f),
-            0.1268081f, enemyMask);
-        ApplyDamage(col, 0.5f);
-        yield return new WaitForSeconds(0.05f);
-        col = Physics2D.OverlapCircleAll(
-            new(transform.position.x + 1.1911f * ParootMovement.facingDir, transform.position.y - 3.3375001f + 3.68f),
-            0.1268081f, enemyMask);
-        ApplyDamage(col, 0.5f);
-    }
-
-    private void ApplyDamage(Collider2D[] hits, float damage)
-    {
-
-        foreach (Collider2D hit in hits)
-        {
-            hit.GetComponent<Health>().health-=damage;
-        }
+        Vector2 attackPos;
+        attackPos = transform.position;
+        float attackDir = ParootMovement.facingDir;
+        GameObject col = Instantiate(m1Hitbox, new(attackPos.x + 0.971f * attackDir, attackPos.y), Quaternion.identity);
+        col.transform.localScale = Vector3.one * 0.82f;
+        col.GetComponent<Hitbox>().damage = 5;
+        
+        yield return new WaitForSeconds(0.3f);
+        Destroy(col);
+        col = Instantiate(m1Hitbox, new(attackPos.x + 1.1836f * attackDir, attackPos.y - 0.1074f), Quaternion.identity);
+        
+        yield return new WaitForSeconds(0.075f);
+        Destroy(col);
+        col = Instantiate(m1Hitbox, new(attackPos.x + 0.835000038f * attackDir, attackPos.y - 3.52609992f + 3.68f), Quaternion.identity);
+        
+        yield return new WaitForSeconds(0.075f);
+        Destroy(col);
+        col = Instantiate(m1Hitbox, new(attackPos.x + 0.815000057f * attackDir, attackPos.y - 4.02759981f + 3.68f), Quaternion.identity);
+        
+        yield return new WaitForSeconds(0.075f);
+        Destroy(col);
+        col = Instantiate(m1Hitbox, new(attackPos.x + 1.1911f * attackDir, attackPos.y - 3.3375001f + 3.68f), Quaternion.identity);
+        yield return new WaitForSeconds(0.075f);
+        Destroy(col);
     }
     private void OnDrawGizmos()
     {
