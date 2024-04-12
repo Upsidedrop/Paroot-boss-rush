@@ -12,18 +12,57 @@ public class ParootAttacks : MonoBehaviour
     private IEnumerator LargeBulletCoroutine;
     private bool useBullets;
     public GameObject m1Hitbox;
+    private readonly float maxHealth = 100;
 
-    //Wind Tornado, Wind bullets, Explosion
-    private int disabledAttacks = 0b000;
+    //Heal, Wind Tornado, Wind bullets, Explosion
+    private int disabledAttacks = 0b0000;
     public void ExplosionReceiver(CallbackContext callbackContext)
     {
         if ((disabledAttacks & 0b1) != 0b1)
         {
             if (callbackContext.performed)
             {
-                print("M1");
-                StartCoroutine(Explosions());
-                StartCoroutine(DisableForTime(3, 0b1));
+                if (ParootMovement.directionMod == 0)
+                {
+                    print("M1");
+                    StartCoroutine(Explosions());
+                    StartCoroutine(DisableForTime(3, 0b1));
+                }
+
+            }
+        }
+    }
+
+    private IEnumerator Heal()
+    {
+        StartCoroutine(DisableForTime(0.75f, 0b110111));
+        StartCoroutine(GetComponent<ParootMovement>().DisableForTime(0.75f, 0b0111));
+        yield return new WaitForSeconds(0.75f);
+        for (int i = 0; i < maxHealth / 5; i++)
+        {
+            if (GetComponent<Health>().health >= maxHealth)
+            {
+                yield break;
+            }
+            GetComponent<Health>().health++;
+            yield return new WaitForSeconds(0.35f);
+
+        }
+    }
+    public void HealReceiver(CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            if ((disabledAttacks & 0b1000) != 0b1000)
+            {
+                if (ParootMovement.directionMod < 0)
+                {
+                    print((disabledAttacks & 0b1000) != 0b1000);
+
+                    StartCoroutine(DisableForTime(35, 0b1000));
+                    StartCoroutine(Heal());
+                }
+
             }
         }
     }
@@ -118,38 +157,24 @@ public class ParootAttacks : MonoBehaviour
         GameObject col = Instantiate(m1Hitbox, new(attackPos.x + 0.971f * attackDir, attackPos.y), Quaternion.identity);
         col.transform.localScale = Vector3.one * 0.82f;
         col.GetComponent<Hitbox>().damage = 5;
-        
+
         yield return new WaitForSeconds(0.3f);
         Destroy(col);
         col = Instantiate(m1Hitbox, new(attackPos.x + 1.1836f * attackDir, attackPos.y - 0.1074f), Quaternion.identity);
-        
+
         yield return new WaitForSeconds(0.075f);
         Destroy(col);
         col = Instantiate(m1Hitbox, new(attackPos.x + 0.835000038f * attackDir, attackPos.y - 3.52609992f + 3.68f), Quaternion.identity);
-        
+
         yield return new WaitForSeconds(0.075f);
         Destroy(col);
         col = Instantiate(m1Hitbox, new(attackPos.x + 0.815000057f * attackDir, attackPos.y - 4.02759981f + 3.68f), Quaternion.identity);
-        
+
         yield return new WaitForSeconds(0.075f);
         Destroy(col);
         col = Instantiate(m1Hitbox, new(attackPos.x + 1.1911f * attackDir, attackPos.y - 3.3375001f + 3.68f), Quaternion.identity);
         yield return new WaitForSeconds(0.075f);
         Destroy(col);
-    }
-    private void OnDrawGizmos()
-    {
-        ///* Explosion Attack
-        Gizmos.DrawWireSphere(new(transform.position.x + 0.971f * ParootMovement.facingDir, transform.position.y), 0.4082f);
-        Gizmos.DrawWireSphere(new(transform.position.x + 1.1836f * ParootMovement.facingDir, transform.position.y - 0.1074f),
-            0.1268081f);
-        Gizmos.DrawWireSphere(new(transform.position.x + 0.835000038f * ParootMovement.facingDir, transform.position.y - 3.52609992f + 3.68f),
-            0.1268081f);
-        Gizmos.DrawWireSphere(new(transform.position.x + 0.815000057f * ParootMovement.facingDir, transform.position.y - 4.02759981f + 3.68f),
-            0.1268081f);
-        Gizmos.DrawWireSphere(new(transform.position.x + 1.1911f * ParootMovement.facingDir, transform.position.y - 3.3375001f + 3.68f),
-            0.1268081f);
-      //*/
     }
     private void Start()
     {
@@ -157,6 +182,7 @@ public class ParootAttacks : MonoBehaviour
     }
     public IEnumerator DisableForTime(float time, int disabled)
     {
+        print($"Disabling {disabled}");
         disabledAttacks |= disabled;
         yield return new WaitForSeconds(time);
         disabledAttacks &= ~disabled;

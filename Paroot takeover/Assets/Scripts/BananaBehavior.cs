@@ -9,7 +9,7 @@ public class BananaBehavior : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             StartCoroutine(collision.gameObject.GetComponent<ParootMovement>().DisableForTime(2.5f, 0b0111));
-            StartCoroutine(collision.gameObject.GetComponent<ParootAttacks>().DisableForTime(2.5f, 0b111));
+            StartCoroutine(collision.gameObject.GetComponent<ParootAttacks>().DisableForTime(2.5f, 0b111111));
             GetComponent<Collider2D>().enabled = false;
             GetComponent<SpriteRenderer>().enabled = false;
             collision.gameObject.GetComponent<Health>().health -= 10;

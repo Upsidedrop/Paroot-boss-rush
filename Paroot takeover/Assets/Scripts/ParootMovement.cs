@@ -40,18 +40,12 @@ public class ParootMovement : MonoBehaviour
                 facingDir = -1;
             }
         }
-        switch (callbackContext.ReadValue<float>())
+        walk = (float)callbackContext.ReadValue<float>() switch
         {
-            case > 0:
-                walk = speed;
-                break;
-            case < 0:
-                walk = -speed;
-                break;
-            default:
-                walk = 0;
-                break;
-        }
+            > 0 => speed,
+            < 0 => -speed,
+            _ => 0,
+        };
     }
     private void Update()
     {
