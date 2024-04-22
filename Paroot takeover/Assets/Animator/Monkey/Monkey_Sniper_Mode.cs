@@ -23,14 +23,14 @@ public class Monkey_Sniper_Mode : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log(timer);
-        if (timer < 5)
+        if (timer < 3)
         {
             laserPointer.transform.localRotation = Quaternion.Euler(180, 180, Mathf.Atan2(playerTransform.position.y - laserPointer.transform.position.y,
                                                                                       playerTransform.position.x - laserPointer.transform.position.x)
                                                                                       * 180 / Mathf.PI);
         }
         timer += Time.deltaTime;
-        if (timer > 7)
+        if (timer > 4)
         {
             Instantiate(chain, laserPointer.transform.position, laserPointer.transform.rotation);
             timer = 0;
@@ -42,6 +42,7 @@ public class Monkey_Sniper_Mode : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         GameObject.Find("AimLine").GetComponent<SpriteRenderer>().enabled = false;
+
     }
 
 }

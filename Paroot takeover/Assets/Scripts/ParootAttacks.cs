@@ -13,9 +13,10 @@ public class ParootAttacks : MonoBehaviour
     private bool useBullets;
     public GameObject m1Hitbox;
     private readonly float maxHealth = 100;
+    public GameObject shield;
 
-    //Heal, Wind Tornado, Wind bullets, Explosion
-    private int disabledAttacks = 0b0000;
+    //Shield, Heal, Wind Tornado, Wind bullets, Explosion
+    private int disabledAttacks = 0b000000;
     public void ExplosionReceiver(CallbackContext callbackContext)
     {
         if ((disabledAttacks & 0b1) != 0b1)
@@ -26,13 +27,29 @@ public class ParootAttacks : MonoBehaviour
                 {
                     print("M1");
                     StartCoroutine(Explosions());
-                    StartCoroutine(DisableForTime(3, 0b1));
+                    StartCoroutine(DisableForTime(2, 0b1));
                 }
 
             }
         }
     }
-
+    public void ParootShield(CallbackContext callbackContext)
+    {
+        if ((disabledAttacks & 0b10000) != 0b10000)
+        {
+            if (callbackContext.performed)
+            {
+                if (ParootMovement.directionMod == -1)
+                {
+                    Instantiate(shield, gameObject.transform);
+                }
+            }
+        }
+    }
+    public void CallCooldown(int disabled, float time)
+    {
+        StartCoroutine(DisableForTime(time, disabled));
+    }
     private IEnumerator Heal()
     {
         StartCoroutine(DisableForTime(0.75f, 0b110111));

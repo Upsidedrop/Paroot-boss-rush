@@ -1414,7 +1414,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1533,7 +1533,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1585050486}
         m_TargetAssemblyTypeName: ParootAttacks, Assembly-CSharp
-        m_MethodName: ExplosionReceiver
+        m_MethodName: WindBullets
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1545,7 +1545,19 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1585050486}
         m_TargetAssemblyTypeName: ParootAttacks, Assembly-CSharp
-        m_MethodName: HealReceiver
+        m_MethodName: TornadoReceiver
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1585050486}
+        m_TargetAssemblyTypeName: ParootAttacks, Assembly-CSharp
+        m_MethodName: ParootShield
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1561,19 +1573,19 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1585050486}
         m_TargetAssemblyTypeName: ParootAttacks, Assembly-CSharp
-        m_MethodName: WindBullets
+        m_MethodName: ExplosionReceiver
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: M1
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1585050486}
         m_TargetAssemblyTypeName: ParootAttacks, Assembly-CSharp
-        m_MethodName: TornadoReceiver
+        m_MethodName: HealReceiver
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1674,6 +1686,7 @@ MonoBehaviour:
   windTornado: {fileID: 5966036389756605298, guid: 466a7f38b69436f4992255b521280920, type: 3}
   isLargeBulletReady: 0
   m1Hitbox: {fileID: 3957721038855724594, guid: 43c9f9830285af645bb85b7b2dc73224, type: 3}
+  shield: {fileID: 2931160961416152516, guid: eb675348d9620f840abd3548e11a27bc, type: 3}
 --- !u!114 &1585050487
 MonoBehaviour:
   m_ObjectHideFlags: 0
