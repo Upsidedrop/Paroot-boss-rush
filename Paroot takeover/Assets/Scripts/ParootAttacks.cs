@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
@@ -14,8 +15,10 @@ public class ParootAttacks : MonoBehaviour
     public GameObject m1Hitbox;
     private readonly float maxHealth = 100;
     public GameObject shield;
+    public GameObject parry;
+    public List<GameObject> heldItems = new();
 
-    //Shield, Heal, Wind Tornado, Wind bullets, Explosion
+    //Parry, Shield, Heal, Wind Tornado, Wind bullets, Explosion
     private int disabledAttacks = 0b000000;
     public void ExplosionReceiver(CallbackContext callbackContext)
     {
@@ -33,15 +36,46 @@ public class ParootAttacks : MonoBehaviour
             }
         }
     }
+    public void ParootParry(CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            if (ParootMovement.directionMod > 0)
+            {
+                if (heldItems.Count == 0)
+                {
+                    if ((disabledAttacks & 0b100000) != 0b100000)
+                    {
+                        ParootParry parootParry;
+                        parootParry = Instantiate(parry, gameObject.transform).GetComponent<ParootParry>();
+                        parootParry.parootAttacks = this;
+                        StartCoroutine(DisableForTime(10, 0b100000));
+                    }
+                }
+                else
+                {
+                    heldItems[0].GetComponent<DestructableAttack>().enemyLayer = 3;
+                    heldItems[0].SetActive(true);
+                    heldItems[0].transform.SetPositionAndRotation(transform.position, Quaternion.Euler(Vector2.zero));
+                    heldItems[0].GetComponent<Rigidbody2D>().velocity = 10 * ParootMovement.facingDir * Vector2.right;
+                    heldItems[0].GetComponent<DestructableAttack>().damage /= 2;
+
+                    heldItems.RemoveAt(0);
+
+                }
+            }
+
+        }
+    }
     public void ParootShield(CallbackContext callbackContext)
     {
         if ((disabledAttacks & 0b10000) != 0b10000)
         {
             if (callbackContext.performed)
             {
-                if (ParootMovement.directionMod == -1)
+                if (ParootMovement.directionMod < 0)
                 {
-                    Instantiate(shield, gameObject.transform);
+                    Instantiate(shield, transform);
                 }
             }
         }

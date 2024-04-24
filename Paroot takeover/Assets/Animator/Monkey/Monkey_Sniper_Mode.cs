@@ -22,7 +22,6 @@ public class Monkey_Sniper_Mode : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log(timer);
         if (timer < 3)
         {
             laserPointer.transform.localRotation = Quaternion.Euler(180, 180, Mathf.Atan2(playerTransform.position.y - laserPointer.transform.position.y,

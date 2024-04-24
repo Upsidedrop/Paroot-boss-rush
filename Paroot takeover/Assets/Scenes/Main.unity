@@ -1171,9 +1171,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 230.40002, y: -56.95}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 460.80005, y: 113.9}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1314997267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1595,6 +1595,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1585050486}
+        m_TargetAssemblyTypeName: ParootAttacks, Assembly-CSharp
+        m_MethodName: ParootParry
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7a2860b5-7c65-4f35-abb0-a3f41a1c1ce6
     m_ActionName: Player Controls/M2[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
@@ -1687,6 +1699,8 @@ MonoBehaviour:
   isLargeBulletReady: 0
   m1Hitbox: {fileID: 3957721038855724594, guid: 43c9f9830285af645bb85b7b2dc73224, type: 3}
   shield: {fileID: 2931160961416152516, guid: eb675348d9620f840abd3548e11a27bc, type: 3}
+  parry: {fileID: 971328663844053186, guid: bb8508298ad22f146a65a919dd283f8e, type: 3}
+  heldItems: []
 --- !u!114 &1585050487
 MonoBehaviour:
   m_ObjectHideFlags: 0
