@@ -16,12 +16,12 @@ public class Monkey_Jump : StateMachineBehaviour
         monkeyTransform = animator.transform;
         if (playerTransform.position.x > monkeyTransform.position.x)
         {
-            rb.velocity = new(1f * jumpForce,  1.5f * jumpForce);
+            rb.linearVelocity = new(1f * jumpForce,  1.5f * jumpForce);
 
         }
         else
         {
-            rb.velocity = new(-1f * jumpForce, 1.5f * jumpForce);
+            rb.linearVelocity = new(-1f * jumpForce, 1.5f * jumpForce);
         }
     }
 

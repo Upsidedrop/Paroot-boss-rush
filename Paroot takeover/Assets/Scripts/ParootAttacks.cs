@@ -57,7 +57,7 @@ public class ParootAttacks : MonoBehaviour
                     heldItems[0].GetComponent<DestructableAttack>().enemyLayer = 3;
                     heldItems[0].SetActive(true);
                     heldItems[0].transform.SetPositionAndRotation(transform.position, Quaternion.Euler(Vector2.zero));
-                    heldItems[0].GetComponent<Rigidbody2D>().velocity = 10 * ParootMovement.facingDir * Vector2.right;
+                    heldItems[0].GetComponent<Rigidbody2D>().linearVelocity = 10 * ParootMovement.facingDir * Vector2.right;
                     heldItems[0].GetComponent<DestructableAttack>().damage /= 2;
 
                     heldItems.RemoveAt(0);
@@ -171,7 +171,7 @@ public class ParootAttacks : MonoBehaviour
                             new Vector2(transform.position.x + 1.2f * ParootMovement.facingDir, transform.position.y),
                             Quaternion.Euler(0, 0, 0));
                         currentBullet.transform.localScale = new Vector3(1.42f, 0.75f, 1.3f);
-                        currentBullet.GetComponent<Rigidbody2D>().velocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
+                        currentBullet.GetComponent<Rigidbody2D>().linearVelocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
                         StartCoroutine(DisableForTime(5, 0b10));
                         isLargeBulletReady = false;
                         currentBullet.GetComponent<DestructableAttack>().damage = 15;
@@ -188,7 +188,7 @@ public class ParootAttacks : MonoBehaviour
                             windBullet,
                             new Vector2(transform.position.x + 0.3f * ParootMovement.facingDir, transform.position.y),
                             Quaternion.Euler(0, 0, -30 + i * 20));
-                        currentBullet.GetComponent<Rigidbody2D>().velocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
+                        currentBullet.GetComponent<Rigidbody2D>().linearVelocity = 5 * ParootMovement.facingDir * currentBullet.transform.right;
                     }
                     shotsFired++;
                     if (shotsFired == 3)

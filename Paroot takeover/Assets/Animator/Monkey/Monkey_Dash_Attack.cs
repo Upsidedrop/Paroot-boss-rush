@@ -16,12 +16,12 @@ public class Monkey_Dash_Attack : StateMachineBehaviour
         monkeyTransform = animator.transform;
         if (playerTransform.position.x > monkeyTransform.position.x)
         {
-            rb.velocity = new(1f * dashForce, 0);
+            rb.linearVelocity = new(1f * dashForce, 0);
 
         }
         else
         {
-            rb.velocity = new(-1f * dashForce, 0);
+            rb.linearVelocity = new(-1f * dashForce, 0);
         }
     }
 }

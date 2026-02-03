@@ -25,16 +25,16 @@ public class Monkey_Walk : StateMachineBehaviour
     {
         if (playerTransform.position.x - animator.transform.position.x < 0)
         {
-            rb.velocity = new(-1 * speed, rb.velocity.y);
+            rb.linearVelocity = new(-1 * speed, rb.linearVelocity.y);
             return;
         }
-        rb.velocity = new(1 * speed, rb.velocity.y);
+        rb.linearVelocity = new(1 * speed, rb.linearVelocity.y);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        rb.velocity = Vector2.zero; 
+        rb.linearVelocity = Vector2.zero; 
         animator.SetInteger("Random Attack", -1);
     }
 }

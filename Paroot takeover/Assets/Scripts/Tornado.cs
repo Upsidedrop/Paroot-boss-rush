@@ -19,7 +19,7 @@ public class Tornado : MonoBehaviour
     private IEnumerator UpdateMovement()
     {
         w += 0.1f;
-        rb.velocity = new Vector2(Mathf.PerlinNoise1D(w) * speed - speed / 2, rb.velocity.y);
+        rb.linearVelocity = new Vector2(Mathf.PerlinNoise1D(w) * speed - speed / 2, rb.linearVelocity.y);
         yield return new WaitForSeconds(0.1f);
         if (w > 3)
         {

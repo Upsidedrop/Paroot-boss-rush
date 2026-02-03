@@ -15,7 +15,7 @@ public class Monkey_Barrage : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         rb = animator.GetComponent<Rigidbody2D>();
-        rb.velocity = new(-1f * dashForce, 0);
+        rb.linearVelocity = new(-1f * dashForce, 0);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -26,7 +26,7 @@ public class Monkey_Barrage : StateMachineBehaviour
         {
             timer = 0;
             GameObject temp = Instantiate(bananaBullet, animator.transform.position, Quaternion.Euler(0,0,Random.Range(-spread, spread)));
-            temp.GetComponent<Rigidbody2D>().velocity = temp.transform.right * bulletSpeed;
+            temp.GetComponent<Rigidbody2D>().linearVelocity = temp.transform.right * bulletSpeed;
         }
     }
 

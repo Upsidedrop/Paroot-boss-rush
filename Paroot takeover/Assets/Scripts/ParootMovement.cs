@@ -51,7 +51,7 @@ public class ParootMovement : MonoBehaviour
     {
         if ((disabledMovement & 0b100) != 0b100)
         {
-            rb2d.velocity = new(walk, rb2d.velocity.y);
+            rb2d.linearVelocity = new(walk, rb2d.linearVelocity.y);
         }
         GravityManager();
 
@@ -80,7 +80,7 @@ public class ParootMovement : MonoBehaviour
                         Vector2.down,
                         Collider2D.bounds.extents.y + 0.05f, jumpableLayers))
                     {
-                        rb2d.velocity = new(rb2d.velocity.x, jumpStrength);
+                        rb2d.linearVelocity = new(rb2d.linearVelocity.x, jumpStrength);
                         doubleJump = true;
                         return;
                     }
@@ -93,7 +93,7 @@ public class ParootMovement : MonoBehaviour
                         float alteredJump;
                         alteredJump = Mathf.Sqrt((jumpStrength * jumpStrength) - (speed * speed));
                         StartCoroutine(DisableForTime(0.2f, 0b100));
-                        rb2d.velocity = new(-speed, alteredJump);
+                        rb2d.linearVelocity = new(-speed, alteredJump);
                         doubleJump = true;
                         return;
                     }
@@ -106,13 +106,13 @@ public class ParootMovement : MonoBehaviour
                         float alteredJump;
                         alteredJump = Mathf.Sqrt((jumpStrength * jumpStrength) - (speed * speed));
                         StartCoroutine(DisableForTime(0.2f, 0b100));
-                        rb2d.velocity = new(speed, alteredJump);
+                        rb2d.linearVelocity = new(speed, alteredJump);
                         doubleJump = true;
                         return;
                     }
                     if (doubleJump)
                     {
-                        rb2d.velocity = new(rb2d.velocity.x, jumpStrength);
+                        rb2d.linearVelocity = new(rb2d.linearVelocity.x, jumpStrength);
                         doubleJump = false;
                     }
                 }
@@ -133,11 +133,11 @@ public class ParootMovement : MonoBehaviour
 
                 if (directionMod < 0)
                 {
-                    rb2d.velocity = new(0, -speed * 3.3f);
+                    rb2d.linearVelocity = new(0, -speed * 3.3f);
                 }
                 else
                 {
-                    rb2d.velocity = new(facingDir * speed * 3.3f, 0);
+                    rb2d.linearVelocity = new(facingDir * speed * 3.3f, 0);
                 }
                 StartCoroutine(DisableForTime(1, 0b1));
             }

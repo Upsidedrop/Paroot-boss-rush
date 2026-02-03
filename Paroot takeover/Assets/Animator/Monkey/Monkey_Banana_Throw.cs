@@ -19,7 +19,7 @@ public class Monkey_Banana_Throw : StateMachineBehaviour
             GameObject bananaInstance;
             bananaInstance = Instantiate(Banana);
             bananaInstance.transform.position = animator.transform.position;
-            bananaInstance.GetComponent<Rigidbody2D>().velocity = new(Random.Range(-15.0f, 15.0f), 0);
+            bananaInstance.GetComponent<Rigidbody2D>().linearVelocity = new(Random.Range(-15.0f, 15.0f), 0);
 
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
